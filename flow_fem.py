@@ -23,100 +23,100 @@ if option == "Upload .grd file":
             f.write(grd_file.getvalue())
 
 elif option == "Download simulated files":
-    # Run ElmerGrid command
+    # Convert .grd to .msh
     run_elmer_command('ElmerGrid 1 2 step.grd')
 
     # Create Elmer sif file
     sif_content = '''
-    Header
-      CHECK KEYWORDS Warn
-      Mesh DB "." "step"
-      Include Path ""
-      Results Directory ""
-    End
+Header
+  CHECK KEYWORDS Warn
+  Mesh DB "." "step"
+  Include Path ""
+  Results Directory ""
+End
 
-    Simulation
-      Max Output Level = 4
-      Coordinate System = Cartesian
-      Coordinate Mapping(3) = 1 2 3
-      Simulation Type = Steady state
-      Steady State Max Iterations = 1
-      Output Intervals(1) = 1
-      Solver Input File = case.sif
-      Post File = case.vtu
-    End
+Simulation
+  Max Output Level = 4
+  Coordinate System = Cartesian
+  Coordinate Mapping(3) = 1 2 3
+  Simulation Type = Steady state
+  Steady State Max Iterations = 1
+  Output Intervals(1) = 1
+  Solver Input File = case.sif
+  Post File = case.vtu
+End
 
-    Constants
-      Gravity(4) = 0 -1 0 9.82
-      Stefan Boltzmann = 5.67e-08
-      Permittivity of Vacuum = 8.8542e-12
-      Permeability of Vacuum = 1.25663706e-6
-      Boltzmann Constant = 1.3807e-23
-      Unit Charge = 1.602e-19
-    End
+Constants
+  Gravity(4) = 0 -1 0 9.82
+  Stefan Boltzmann = 5.67e-08
+  Permittivity of Vacuum = 8.8542e-12
+  Permeability of Vacuum = 1.25663706e-6
+  Boltzmann Constant = 1.3807e-23
+  Unit Charge = 1.602e-19
+End
 
-    Body 1
-      Target Bodies(1) = 1
-      Name = "Body Property 1"
-      Equation = 1
-      Material = 1
-    End
+Body 1
+  Target Bodies(1) = 1
+  Name = "Body Property 1"
+  Equation = 1
+  Material = 1
+End
 
-    Solver 1
-      Equation = Navier-Stokes
-      Procedure = "FlowSolve" "FlowSolver"
-      Variable = Flow Solution[Velocity:2 Pressure:1]
-      Exec Solver = Always
-      Stabilize = True
-      Optimize Bandwidth = True
-      Steady State Convergence Tolerance = 1.0e-5
-      Nonlinear System Convergence Tolerance = 1.0e-8
-      Nonlinear System Max Iterations = 20
-      Nonlinear System Newton After Iterations = 3
-      Nonlinear System Newton After Tolerance = 1.0e-3
-      Nonlinear System Relaxation Factor = 1
-      Linear System Solver = Iterative
-      Linear System Iterative Method = BiCGStab
-      Linear System Max Iterations = 500
-      Linear System Convergence Tolerance = 1.0e-8
-      BiCGstabl polynomial degree = 2
-      Linear System Preconditioning = ILU0
-      Linear System ILUT Tolerance = 1.0e-3
-      Linear System Abort Not Converged = False
-      Linear System Residual Output = 1
-      Linear System Precondition Recompute = 1
-    End
+Solver 1
+  Equation = Navier-Stokes
+  Procedure = "FlowSolve" "FlowSolver"
+  Variable = Flow Solution[Velocity:2 Pressure:1]
+  Exec Solver = Always
+  Stabilize = True
+  Optimize Bandwidth = True
+  Steady State Convergence Tolerance = 1.0e-5
+  Nonlinear System Convergence Tolerance = 1.0e-8
+  Nonlinear System Max Iterations = 20
+  Nonlinear System Newton After Iterations = 3
+  Nonlinear System Newton After Tolerance = 1.0e-3
+  Nonlinear System Relaxation Factor = 1
+  Linear System Solver = Iterative
+  Linear System Iterative Method = BiCGStab
+  Linear System Max Iterations = 500
+  Linear System Convergence Tolerance = 1.0e-8
+  BiCGstabl polynomial degree = 2
+  Linear System Preconditioning = ILU0
+  Linear System ILUT Tolerance = 1.0e-3
+  Linear System Abort Not Converged = False
+  Linear System Residual Output = 1
+  Linear System Precondition Recompute = 1
+End
 
-    Equation 1
-      Name = "Navier-Stokes"
-      Active Solvers(1) = 1
-    End
+Equation 1
+  Name = "Navier-Stokes"
+  Active Solvers(1) = 1
+End
 
-    Material 1
-      Name = "Ideal"
-      Density = 1.0
-      Viscosity = 0.01
-    End
+Material 1
+  Name = "Ideal"
+  Density = 1.0
+  Viscosity = 0.01
+End
 
-    Boundary Condition 1
-      Target Boundaries(1) = 1 
-      Name = "Inlet"
-      Velocity 2 = 0.0
-      Velocity 1 = Variable Coordinate 2; Real MATC "6*(tx-1)*(2-tx)"
-    End
+Boundary Condition 1
+  Target Boundaries(1) = 1 
+  Name = "Inlet"
+  Velocity 2 = 0.0
+  Velocity 1 = Variable Coordinate 2; Real MATC "6*(tx-1)*(2-tx)"
+End
 
-    Boundary Condition 2
-      Target Boundaries(1) = 2 
-      Name = "Outlet"
-      Velocity 2 = 0.0
-    End
+Boundary Condition 2
+  Target Boundaries(1) = 2 
+  Name = "Outlet"
+  Velocity 2 = 0.0
+End
 
-    Boundary Condition 3
-      Target Boundaries(1) = 3 
-      Name = "Walls"
-      Noslip wall BC = True
-    End
-    '''
+Boundary Condition 3
+  Target Boundaries(1) = 3 
+  Name = "Walls"
+  Noslip wall BC = True
+End
+'''
 
     # Save sif file
     with open('case.sif', 'w') as f:
@@ -134,19 +134,21 @@ elif option == "Download simulated files":
     st.markdown("[Download Simulated Files](./step)")
 
 elif option == "Download mesh files":
-    # Run ElmerGrid command
+    # Convert .grd to .msh
     run_elmer_command('ElmerGrid 1 2 step.grd')
 
-    # List files in the current directory
-    file_list = os.listdir('.')
-    st.title("Current Directory")
-    st.write(file_list)
+    # Create flow_fem directory in the home directory
+    flow_fem_dir = os.path.expanduser("~/flow_fem")
+    os.makedirs(flow_fem_dir, exist_ok=True)
+
+    # Move the .msh file to flow_fem directory
+    os.rename("step.msh", os.path.join(flow_fem_dir, "step.msh"))
 
     # Provide download link for mesh files
-    st.markdown("[Download Mesh Files](./)")
+    st.markdown("[Download Mesh Files](~/flow_fem)")
 
 # Read VTU file
-mesh = meshio.read("./step/case_t0001.vtu")
+mesh = meshio.read(os.path.expanduser("~/flow_fem/step/case_t0001.vtu"))
 
 # Extract the points and cells from the mesh
 points = mesh.points
@@ -177,4 +179,4 @@ ax.set_xlabel('X')
 ax.set_ylabel('Y')
 
 # Display the plot using Streamlit
-st.image(fig.canvas.to_rgba(), use_column_width=True)
+st.pyplot(fig)
