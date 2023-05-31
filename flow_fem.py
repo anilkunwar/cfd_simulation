@@ -18,7 +18,7 @@ with open('step.grd', 'wb') as f:
     f.write(response.content)
 
 # Run ElmerGrid command
-os.system('ElmerGrid 1 4 step.grd')
+#os.system('ElmerGrid 1 4 step.grd')
 
 # Run ElmerGrid command
 run_elmer_command('ElmerGrid 1 4 step.grd')
