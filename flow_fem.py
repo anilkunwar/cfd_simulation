@@ -1,4 +1,5 @@
 import os
+import shutil
 import streamlit as st
 import meshio
 import numpy as np
@@ -30,7 +31,7 @@ if grd_file is not None:
     os.makedirs(flow_fem_dir, exist_ok=True)
 
     # Move the .msh file to flow_fem directory
-    os.rename("step.msh", os.path.join(flow_fem_dir, "step.msh"))
+    shutil.move("step.msh", os.path.join(flow_fem_dir, "step.msh"))
 
     # Change current directory to flow_fem
     os.chdir(flow_fem_dir)
