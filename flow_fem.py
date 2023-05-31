@@ -3,9 +3,15 @@ import streamlit as st
 import meshio
 import numpy as np
 import matplotlib.pyplot as plt
+import subprocess
+
+def run_elmer_command(command):
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    return stdout.decode(), stderr.decode()
 
 # Run ElmerGrid command
-os.system('ElmerGrid 1 4 step.grd')
+run_elmer_command('ElmerGrid 1 4 step.grd')
 
 # Read mesh file
 mesh = meshio.read('step.msh')
@@ -48,7 +54,7 @@ ax.set_aspect('equal')
 st.pyplot(fig)
 
 # Run ElmerGrid command
-os.system('ElmerGrid 1 2 step.grd')
+run_elmer_command('ElmerGrid 1 2 step.grd')
 
 # List files in the current directory
 file_list = os.listdir('.')
@@ -152,7 +158,7 @@ with open('case.sif', 'w') as f:
     f.write(sif_content)
 
 # Run ElmerSolver command
-os.system('ElmerSolver case.sif')
+run_elmer_command('ElmerSolver case.sif')
 
 # List files in the current directory
 file_list = os.listdir('.')
@@ -192,4 +198,3 @@ ax.set_ylabel('Y')
 
 # Display the plot using Streamlit
 st.pyplot(fig)
-
