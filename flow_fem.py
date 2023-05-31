@@ -33,6 +33,9 @@ if grd_file is not None:
     # Move the .msh file to flow_fem directory
     shutil.move("step.msh", os.path.join(flow_fem_dir, "step.msh"))
 
+    # Display download link for .msh file
+    st.markdown("Download [.msh file](flow_fem/step.msh)")
+
     # Change current directory to flow_fem
     os.chdir(flow_fem_dir)
 
