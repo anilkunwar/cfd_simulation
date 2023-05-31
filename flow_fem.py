@@ -11,6 +11,9 @@ def run_elmer_command(command):
     return stdout.decode(), stderr.decode()
 
 # Run ElmerGrid command
+os.system('ElmerGrid 1 4 step.grd')
+
+# Run ElmerGrid command
 run_elmer_command('ElmerGrid 1 4 step.grd')
 
 # Read mesh file
