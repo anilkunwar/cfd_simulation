@@ -24,7 +24,7 @@ if option == "Upload .grd file":
 
 elif option == "Download simulated files":
     # Run ElmerGrid command
-    run_elmer_command('ElmerGrid 1 4 step.grd')
+    run_elmer_command('ElmerGrid 1 2 step.grd')
 
     # Create Elmer sif file
     sif_content = '''
