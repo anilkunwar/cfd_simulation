@@ -1,5 +1,6 @@
 import os
 import streamlit as st
+import requests
 import meshio
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,6 +10,12 @@ def run_elmer_command(command):
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     return stdout.decode(), stderr.decode()
+
+# Download the mesh file from GitHub
+url = 'https://raw.githubusercontent.com/anilkunwar/cfd_simulation/main/step.grd'
+response = requests.get(url)
+with open('step.grd', 'wb') as f:
+    f.write(response.content)
 
 # Run ElmerGrid command
 os.system('ElmerGrid 1 4 step.grd')
