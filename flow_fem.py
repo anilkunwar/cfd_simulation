@@ -17,7 +17,7 @@ if uploaded_file is not None:
         f.write(uploaded_file.getbuffer())
 
     # Run ElmerGrid command
-    os.system("ElmerGrid 1 4 step.grd")
+    os.system("ElmerGrid 1 2 step.grd")
 
     # Read mesh file
     mesh = meshio.read("step.msh")
